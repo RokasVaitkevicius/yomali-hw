@@ -69,6 +69,17 @@ express.post('/visits', async (req, res) => {
   }
 });
 
+express.get('/visits', async (req, res) => {
+  try {
+    const visits = await db.sequelize.models.Visit.findAll();
+
+    res.status(200).json({ visits });
+  } catch (error) {
+    console.error('Error getting visits:', error);
+    res.status(500).json({ message: 'Error getting visits' });
+  }
+});
+
 express.listen(HTTP_PORT, () => {
   console.log(`Example app listening on port ${HTTP_PORT}`);
 });
