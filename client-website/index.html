@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <style>
+      #localStorageContents {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <h1>Home</h1>
+    <p>Welcome to the homepage.</p>
+
+    <!-- Container for displaying localStorage data -->
+    <div id="localStorageContents">
+      <h2>Local Storage Contents:</h2>
+      <ul id="localStorageList"></ul>
+    </div>
+
+    <script>
+      // Function to display the contents of localStorage in the HTML document
+      function displayLocalStorage() {
+        const list = document.getElementById("localStorageList")
+        list.innerHTML = "" // Clear existing list items if any
+
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i)
+          const value = localStorage.getItem(key)
+          const listItem = document.createElement("li")
+          listItem.textContent = `${key}: ${value}`
+          list.appendChild(listItem)
+        }
+      }
+
+      // Call the function to display the data
+      displayLocalStorage()
+    </script>
+    <script src="./user-tracker.js"></script>
+  </body>
+</html>
