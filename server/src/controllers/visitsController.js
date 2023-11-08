@@ -5,24 +5,21 @@ export async function createVisit(req, res) {
     const { identifier, pageUrl } = req.body;
     const SEVEN_DAYS_AGO = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
 
-    // Find or create the user based on the identifier
     const [user, userCreated] = await db.sequelize.models.User.findOrCreate({
       where: { identifier },
       defaults: { identifier },
     });
 
-    // Find a visit within the last 7 days
     let visit = await db.sequelize.models.Visit.findOne({
       where: {
         userId: user.id,
         pageUrl,
         createdAt: {
-          [db.Sequelize.Op.lt]: SEVEN_DAYS_AGO,
+          [db.Sequelize.Op.gt]: SEVEN_DAYS_AGO,
         },
       },
     });
 
-    // If they haven't visited in the last 7 days, or we didn't find a visit, log a new visit
     if (!visit) {
       visit = await db.sequelize.models.Visit.create({
         userId: user.id,
@@ -38,7 +35,6 @@ export async function createVisit(req, res) {
         visit,
       });
     } else {
-      // If the visit is within the last 7 days, don't log a new visit
       res.status(200).json({
         message: 'Recent visit already logged; no new entry created.',
         user: {
