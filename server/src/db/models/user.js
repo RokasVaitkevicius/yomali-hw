@@ -21,7 +21,7 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       tableName: 'users',
-      createdAt: 'created_at',
+      updatedAt: false,
       indexes: [{ unique: true, fields: ['identifier'] }],
     }
   );

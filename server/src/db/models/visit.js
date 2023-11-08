@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         field: 'user_id',
       },
+      pageUrl: {
+        type: DataTypes.STRING,
+        field: 'page_url',
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
@@ -21,8 +25,8 @@ export default (sequelize, DataTypes) => {
     {
       sequelize,
       tableName: 'visits',
-      createdAt: 'created_at',
-      indexes: [{ unique: true, fields: ['user_id'] }],
+      updatedAt: false,
+      indexes: [{ unique: false, fields: ['user_id'] }],
     }
   );
 

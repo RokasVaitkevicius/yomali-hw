@@ -11,10 +11,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      user_id: {
+      userId: {
         type: Sequelize.INTEGER,
+        field: 'user_id',
       },
-      page_url: {
+      pageUrl: {
         type: Sequelize.STRING,
         field: 'page_url',
       },
@@ -27,7 +28,7 @@ module.exports = {
 
     await queryInterface.addIndex(TABLE_NAME, ['user_id'], {
       fields: ['user_id'],
-      unique: true,
+      unique: false,
     });
   },
   async down(queryInterface) {
