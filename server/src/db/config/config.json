@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
-    "database": "database_development",
-    "host": "sqlite::memory",
-    "storage": "./database.sqlite",
-    "dialect": "sqlite"
+    "username": "postgres",
+    "password": "yomali",
+    "database": "yomali-hw",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",
