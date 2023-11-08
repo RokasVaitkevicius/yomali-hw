@@ -52,9 +52,33 @@ export async function createVisit(req, res) {
 
 export async function getVisits(req, res) {
   try {
-    const visits = await db.sequelize.models.Visit.findAll();
+    // 30 days ago
+    const defaultFrom = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+    const defaultTo = new Date();
 
-    res.status(200).json({ visits });
+    // TODO: add url params validation middleware
+    const from = req.query.from ? new Date(req.query.from) : defaultFrom;
+    const to = req.query.to ? new Date(req.query.to) : defaultTo;
+
+    const timeframe = req.query.timeframe || 'minute';
+
+    const visits = await db.sequelize.models.Visit.findAll({
+      attributes: [
+        [db.sequelize.fn('date_trunc', timeframe, db.sequelize.col('created_at')), 'timeframe'],
+        [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'visit_count'],
+        'page_url',
+      ],
+      where: {
+        createdAt: {
+          [db.Sequelize.Op.gte]: from,
+          [db.Sequelize.Op.lte]: to,
+        },
+      },
+      group: ['timeframe', 'page_url'],
+      order: [[db.sequelize.col('timeframe'), 'ASC']],
+    });
+
+    res.status(200).json({ data: visits });
   } catch (error) {
     console.error('Error getting visits:', error);
     res.status(500).json({ message: 'Error getting visits' });
