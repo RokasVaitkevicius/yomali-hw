@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react"
-import logo from "./logo.svg"
 import "./App.css"
 
 function App() {
@@ -8,7 +7,7 @@ function App() {
   useEffect(() => {
     fetch("http://localhost:8080/visits")
       .then((response) => response.json())
-      .then((data) => setVisits(data.visits))
+      .then((data) => setVisits(data.data))
       .catch((error) => console.error("Error fetching visits:", error))
   }, [])
 
@@ -20,10 +19,13 @@ function App() {
           {visits.map((visit) => (
             <li key={visit.id}>
               <p>
-                <strong>Page URL:</strong> {visit.pageUrl}
+                <strong>Page url:</strong> {visit.page_url}
               </p>
               <p>
-                <strong>Visited at:</strong> {visit.createdAt}
+                <strong>Visit count</strong> {visit.visit_count}
+              </p>
+              <p>
+                <strong>Timeframe</strong> {visit.timeframe}
               </p>
             </li>
           ))}
