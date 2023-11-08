@@ -1,10 +1,13 @@
 import Express from 'express';
+import cors from 'cors';
 import { HTTP_PORT } from './services/config.js';
 import { db } from './db/index.js';
 
 const express = Express();
 
 express.use(Express.json());
+
+express.use(cors());
 
 await db.init();
 
