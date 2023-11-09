@@ -20,7 +20,7 @@ module.exports = {
         field: 'org_id',
       },
       pageUrl: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         field: 'page_url',
       },
       visitedAt: {

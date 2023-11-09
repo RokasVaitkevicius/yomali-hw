@@ -40,7 +40,7 @@ export async function getVisits(req, res) {
       },
     };
 
-    const aggregation = req.query.aggregation || 'minute';
+    const aggregation = req.query.aggregation || 'day';
     const { org } = req;
 
     const { defaultFrom, defaultTo } = aggregationsConfig[aggregation];

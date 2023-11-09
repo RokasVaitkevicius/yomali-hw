@@ -18,12 +18,13 @@ export default (sequelize, DataTypes) => {
         field: 'org_id',
       },
       pageUrl: {
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         field: 'page_url',
       },
       visitedAt: {
         type: DataTypes.DATE,
         field: 'visited_at',
+        allowNull: false,
       },
       createdAt: {
         type: DataTypes.DATE,
