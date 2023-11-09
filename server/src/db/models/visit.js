@@ -17,6 +17,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: 'page_url',
       },
+      visitedAt: {
+        type: DataTypes.DATE,
+        field: 'visited_at',
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
