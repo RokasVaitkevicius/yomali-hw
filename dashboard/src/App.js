@@ -38,24 +38,27 @@ function App() {
           <option value="api-key-tenant-b">Org 2</option>
         </select>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Page url</th>
-              <th>Visits count</th>
-              <th>Aggregation</th>
-            </tr>
-          </thead>
-          <tbody>
-            {visits.map((visit) => (
-              <tr key={visit.id}>
-                <td>{visit.page_url}</td>
-                <td>{visit.visit_count}</td>
-                <td>{visit.aggregation}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {Object.keys(visits).map((visit) => (
+          <>
+            <h4>{visit}</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Visits count</th>
+                  <th>Timeframe</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visits[visit].map((v) => (
+                  <tr key={v}>
+                    <td>{v.visit_count}</td>
+                    <td>{v.timeframe}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        ))}
       </header>
     </div>
   )

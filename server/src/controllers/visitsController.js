@@ -51,7 +51,7 @@ export async function getVisits(req, res) {
 
     const visits = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findAll({
       attributes: [
-        [db.sequelize.fn('date_trunc', aggregation, db.sequelize.col('visited_at')), 'aggregation'],
+        [db.sequelize.fn('date_trunc', aggregation, db.sequelize.col('visited_at')), 'timeframe'],
         [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'visit_count'],
         'page_url',
       ],
@@ -61,10 +61,22 @@ export async function getVisits(req, res) {
           [db.Sequelize.Op.lte]: to,
         },
       },
-      group: ['aggregation', 'page_url'],
+      group: ['timeframe', 'page_url'],
     });
 
-    res.status(200).json({ data: visits });
+    const structuredData = visits.reduce((accumulator, current) => {
+      const { page_url, timeframe, visit_count } = current.dataValues;
+
+      if (!accumulator[page_url]) {
+        accumulator[page_url] = [];
+      }
+
+      accumulator[page_url].push({ timeframe, visit_count: parseInt(visit_count, 10) });
+
+      return accumulator;
+    }, {});
+
+    res.status(200).json({ data: structuredData });
   } catch (error) {
     console.error('Error getting visits:', error);
     res.status(500).json({ message: 'Error getting visits' });
