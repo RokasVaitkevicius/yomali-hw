@@ -35,8 +35,8 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex(TABLE_NAME, ['org_id'], {
-      fields: ['org_id'],
+    await queryInterface.addIndex(TABLE_NAME, ['org_id', 'visited_at'], {
+      fields: ['org_id', 'visited_at'],
       unique: false,
     });
 

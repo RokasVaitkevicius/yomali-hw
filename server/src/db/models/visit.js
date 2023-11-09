@@ -35,8 +35,8 @@ export default (sequelize, DataTypes) => {
       tableName: 'visits',
       updatedAt: false,
       indexes: [
+        { unique: false, fields: ['org_id', 'visited_at'] },
         { unique: false, fields: ['user_id'] },
-        { unique: false, fields: ['org_id'] },
       ],
       scopes: {
         org(orgId) {

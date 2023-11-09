@@ -51,7 +51,7 @@ export async function getVisits(req, res) {
 
     const visits = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findAll({
       attributes: [
-        [db.sequelize.fn('date_trunc', aggregation, db.sequelize.col('created_at')), 'aggregation'],
+        [db.sequelize.fn('date_trunc', aggregation, db.sequelize.col('visited_at')), 'aggregation'],
         [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'visit_count'],
         'page_url',
       ],
@@ -62,7 +62,6 @@ export async function getVisits(req, res) {
         },
       },
       group: ['aggregation', 'page_url'],
-      order: [[db.sequelize.col('visit_count'), 'ASC']],
     });
 
     res.status(200).json({ data: visits });
