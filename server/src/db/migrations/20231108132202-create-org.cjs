@@ -1,6 +1,6 @@
 'use strict';
 
-const TABLE_NAME = 'visits';
+const TABLE_NAME = 'orgs';
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -11,22 +11,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        field: 'user_id',
-      },
-      orgId: {
-        type: Sequelize.INTEGER,
-        field: 'org_id',
-      },
-      pageUrl: {
+      apiKey: {
         type: Sequelize.STRING,
-        field: 'page_url',
-      },
-      visitedAt: {
-        field: 'visited_at',
+        field: 'api_key',
         allowNull: false,
-        type: Sequelize.DATE,
+        unique: true,
+        validate: {
+          notEmpty: true,
+        },
       },
       createdAt: {
         field: 'created_at',
@@ -35,14 +27,9 @@ module.exports = {
       },
     });
 
-    await queryInterface.addIndex(TABLE_NAME, ['org_id'], {
-      fields: ['org_id'],
-      unique: false,
-    });
-
-    await queryInterface.addIndex(TABLE_NAME, ['user_id'], {
-      fields: ['user_id'],
-      unique: false,
+    await queryInterface.addIndex(TABLE_NAME, ['api_key'], {
+      fields: ['api_key'],
+      unique: true,
     });
   },
   async down(queryInterface) {

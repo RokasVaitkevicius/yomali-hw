@@ -4,8 +4,9 @@ import { visitsQueue } from '../services/visitsQueue.js';
 export async function createVisit(req, res) {
   try {
     const { identifier, pageUrl, visitedAt } = req.body;
+    const { org } = req;
 
-    visitsQueue.push({ identifier, pageUrl, visitedAt });
+    visitsQueue.push({ identifier, pageUrl, visitedAt, org });
 
     res.status(202).json({ message: 'Visit logged' });
   } catch (error) {
@@ -40,6 +41,7 @@ export async function getVisits(req, res) {
     };
 
     const aggregation = req.query.aggregation || 'minute';
+    const { org } = req;
 
     const { defaultFrom, defaultTo } = aggregationsConfig[aggregation];
 
@@ -47,7 +49,7 @@ export async function getVisits(req, res) {
     const from = req.query.from ? new Date(req.query.from) : defaultFrom;
     const to = req.query.to ? new Date(req.query.to) : defaultTo;
 
-    const visits = await db.sequelize.models.Visit.findAll({
+    const visits = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findAll({
       attributes: [
         [db.sequelize.fn('date_trunc', aggregation, db.sequelize.col('created_at')), 'aggregation'],
         [db.sequelize.fn('COUNT', db.sequelize.col('*')), 'visit_count'],

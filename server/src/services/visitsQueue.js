@@ -10,15 +10,15 @@ export const visitsQueue = new BetterQueue(
     console.log('Running visits task');
 
     try {
-      const { identifier, pageUrl, visitedAt } = input;
+      const { identifier, pageUrl, visitedAt, org } = input;
       const SEVEN_DAYS_AGO = new Date(new Date() - 7 * 24 * 60 * 60 * 1000);
 
-      const [user] = await db.sequelize.models.User.findOrCreate({
+      const [user] = await db.sequelize.models.User.scope({ method: ['org', org.id] }).findOrCreate({
         where: { identifier },
-        defaults: { identifier },
+        defaults: { identifier, orgId: org.id },
       });
 
-      let visit = await db.sequelize.models.Visit.findOne({
+      let visit = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findOne({
         where: {
           userId: user.id,
           pageUrl,
@@ -28,25 +28,22 @@ export const visitsQueue = new BetterQueue(
         },
       });
 
-      console.log(input);
-      console.log(visit);
-
       if (!visit) {
         visit = await db.sequelize.models.Visit.create({
           userId: user.id,
+          orgId: org.id,
           pageUrl,
           visitedAt,
         });
 
         console.log('Visit logged successfully');
       } else {
-        console.log('Recent visit already logged; no new entry created.');
+        console.log('Recent visit already logged; no new entry created');
       }
 
       cb(null);
     } catch (e) {
       console.error(`Error logging visit: ${e}`);
-      console.error(e);
       cb(e);
     }
   },

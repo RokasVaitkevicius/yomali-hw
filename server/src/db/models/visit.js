@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         field: 'user_id',
       },
+      orgId: {
+        type: DataTypes.INTEGER,
+        field: 'org_id',
+      },
       pageUrl: {
         type: DataTypes.STRING,
         field: 'page_url',
@@ -30,7 +34,19 @@ export default (sequelize, DataTypes) => {
       sequelize,
       tableName: 'visits',
       updatedAt: false,
-      indexes: [{ unique: false, fields: ['user_id'] }],
+      indexes: [
+        { unique: false, fields: ['user_id'] },
+        { unique: false, fields: ['org_id'] },
+      ],
+      scopes: {
+        org(orgId) {
+          return {
+            where: {
+              orgId,
+            },
+          };
+        },
+      },
     }
   );
 

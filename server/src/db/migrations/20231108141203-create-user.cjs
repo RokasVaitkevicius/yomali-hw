@@ -14,12 +14,22 @@ module.exports = {
       identifier: {
         type: Sequelize.UUID,
         field: 'identifier',
+        unique: true,
+      },
+      orgId: {
+        type: Sequelize.INTEGER,
+        field: 'org_id',
       },
       createdAt: {
         field: 'created_at',
         allowNull: false,
         type: Sequelize.DATE,
       },
+    });
+
+    await queryInterface.addIndex(TABLE_NAME, ['org_id'], {
+      fields: ['org_id'],
+      unique: false,
     });
 
     await queryInterface.addIndex(TABLE_NAME, ['identifier'], {

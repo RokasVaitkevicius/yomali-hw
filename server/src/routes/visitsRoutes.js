@@ -6,7 +6,7 @@ import apiKeyAuth from '../middleware/apiKeyAuth.js';
 
 const router = express.Router();
 
-router.post('/visits', validateSchema(createVisitSchema), createVisit);
+router.post('/visits', [apiKeyAuth, validateSchema(createVisitSchema)], createVisit);
 router.get('/visits', [apiKeyAuth, validateQueryParams(visitsAggregationSchema)], getVisits);
 
 export default router;

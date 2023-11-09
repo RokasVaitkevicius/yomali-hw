@@ -13,6 +13,10 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         field: 'identifier',
       },
+      orgId: {
+        type: DataTypes.INTEGER,
+        field: 'org_id',
+      },
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
@@ -22,7 +26,19 @@ export default (sequelize, DataTypes) => {
       sequelize,
       tableName: 'users',
       updatedAt: false,
-      indexes: [{ unique: true, fields: ['identifier'] }],
+      indexes: [
+        { unique: true, fields: ['identifier'] },
+        { unique: false, fields: ['org_id'] },
+      ],
+      scopes: {
+        org(orgId) {
+          return {
+            where: {
+              orgId,
+            },
+          };
+        },
+      },
     }
   );
 
