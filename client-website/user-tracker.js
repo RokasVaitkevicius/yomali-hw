@@ -36,10 +36,12 @@ function uuid4() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": "2agp59nwu8nrszm4p6kfriekoeo0s1",
       },
       body: JSON.stringify({
         identifier: userIdentifier,
         pageUrl: pageUrl,
+        visitedAt: new Date(),
       }),
     })
       .then((response) => response.json())
