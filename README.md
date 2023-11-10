@@ -9,7 +9,7 @@ Project consists of three parts:
 ## Resources
 
 - DB uml: [link](https://drive.google.com/file/d/1P-LfEx0N00SsIkOu7P1ZAfOYYM79LDtT/view?usp=sharing)
-- Demo Video (loom): [link]()
+- Demo Video (loom): [link](https://www.loom.com/share/6df87412c2b3448cb2972868a32cba3d?sid=2d063f4c-0527-4358-8097-0d3ca77c00fc)
 - Doc with some questions: [link](https://docs.google.com/document/d/1HS7kFKOfQi7cvEsMUp6IZIy54fGm0AUCJsGo2BXI1co/edit)
 
 ## Easy start
@@ -39,6 +39,7 @@ docker exec -it yomali-hw-server-1 pnpm sequelize-cli db:seed --seed 20231110093
 ```
 
 Then you can open:
+
 - `http://localhost:3001` in your browser to see the client website
 - `http://localhost:3000` in your browser to see the dashboard
 - `http://localhost:8080` for server
@@ -138,6 +139,7 @@ I've added indexes where they made the most impact based on `EXPLAIN` query resu
 - I'd also change how I manage multitenancy, so that it would be flexible enough to support dedicated databases for each org. This would allow us to scale better and have more control over data. (this of course depends on the business requirements, if we want to support "enterprise" customer who'd get dedicated servers). Another thing is I'd add multiple api-keys support.
 
 #### Things to improve in general
+
 - Security: for example there is no rate limiting. Api-keys should be hashed in DB. Cors is not properly setup.
 - Caching: could add redis to at least cache most used orgs
 - Monitoring: no monitoring added. It could benefit from using like Data-Dog or something to keep an eye on queue size, server load, slow queries.

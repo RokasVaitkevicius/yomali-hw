@@ -1,7 +1,7 @@
 import { db } from '../db/index.js';
 
 export default async function apiKeyAuth(req, res, next) {
-  let apiKey = req.header('x-api-key');
+  const apiKey = req.header('x-api-key');
 
   if (!apiKey) {
     return res.status(401).json({ message: 'Unauthorized' });
