@@ -55,7 +55,7 @@ module.exports = {
     await queryInterface.bulkInsert('visits', visits2, {});
   },
 
-  async down(queryInterface, Sequelize) {
+  async down() {
     /**
      * Add commands to revert seed here.
      *

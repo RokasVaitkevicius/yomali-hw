@@ -6,6 +6,7 @@ export async function createVisit(req, res) {
     const { identifier, pageUrl, visitedAt } = req.body;
     const { org } = req;
 
+    // Push event to a queue for async processing
     visitsQueue.push({ identifier, pageUrl, visitedAt, org });
 
     res.status(202).json({ message: 'Visit logged' });
@@ -41,13 +42,14 @@ export async function getVisits(req, res) {
     };
 
     const aggregation = req.query.aggregation || 'day';
+
     const { org } = req;
 
     const { defaultFrom, defaultTo } = aggregationsConfig[aggregation];
 
     // TODO: add url params validation middleware
-    const from = req.query.from ? new Date(req.query.from) : defaultFrom;
-    const to = req.query.to ? new Date(req.query.to) : defaultTo;
+    const dateFrom = req.query.dateFrom ? new Date(req.query.dateFrom) : defaultFrom;
+    const dateTo = req.query.dateTo ? new Date(req.query.dateTo) : defaultTo;
 
     const visits = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findAll({
       attributes: [
@@ -57,8 +59,8 @@ export async function getVisits(req, res) {
       ],
       where: {
         visitedAt: {
-          [db.Sequelize.Op.gte]: from,
-          [db.Sequelize.Op.lte]: to,
+          [db.Sequelize.Op.gte]: dateFrom,
+          [db.Sequelize.Op.lte]: dateTo,
         },
       },
       group: ['timeframe', 'page_url'],
