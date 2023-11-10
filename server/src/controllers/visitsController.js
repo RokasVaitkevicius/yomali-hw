@@ -16,6 +16,7 @@ export async function createVisit(req, res) {
   }
 }
 
+// This controller is bloated. I'd move business logic to a separate service
 export async function getVisits(req, res) {
   try {
     const aggregationsConfig = {
@@ -42,9 +43,7 @@ export async function getVisits(req, res) {
     };
 
     const aggregation = req.query.aggregation || 'day';
-
     const { org } = req;
-
     const { defaultFrom, defaultTo } = aggregationsConfig[aggregation];
 
     // TODO: add url params validation middleware

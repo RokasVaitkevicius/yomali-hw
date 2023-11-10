@@ -18,7 +18,7 @@ export const visitsQueue = new BetterQueue(
         defaults: { identifier, orgId: org.id },
       });
 
-      let visit = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findOne({
+      const visit = await db.sequelize.models.Visit.scope({ method: ['org', org.id] }).findOne({
         where: {
           userId: user.id,
           pageUrl,
@@ -29,7 +29,7 @@ export const visitsQueue = new BetterQueue(
       });
 
       if (!visit) {
-        visit = await db.sequelize.models.Visit.create({
+        await db.sequelize.models.Visit.create({
           userId: user.id,
           orgId: org.id,
           pageUrl,

@@ -4,7 +4,7 @@ export default async function apiKeyAuth(req, res, next) {
   let apiKey = req.header('x-api-key');
 
   if (!apiKey) {
-    res.status(401).json({ message: 'Unauthorized' });
+    return res.status(401).json({ message: 'Unauthorized' });
   }
 
   // TODO: could be cached to redis for example
