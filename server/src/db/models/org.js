@@ -1,7 +1,7 @@
 'use strict';
 
 export default (sequelize, DataTypes) => {
-  const User = sequelize.define(
+  const Org = sequelize.define(
     'Org',
     {
       id: {
@@ -12,10 +12,14 @@ export default (sequelize, DataTypes) => {
       apiKey: {
         type: DataTypes.STRING,
         field: 'api_key',
+        allowNull: false,
+        unique: true,
       },
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
@@ -26,5 +30,5 @@ export default (sequelize, DataTypes) => {
     }
   );
 
-  return User;
+  return Org;
 };

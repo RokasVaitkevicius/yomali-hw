@@ -9,10 +9,12 @@ module.exports = {
         {
           identifier: '927dc1a1-1feb-427c-b4a8-77f50da251bf',
           org_id: 1,
+          created_at: new Date(),
         },
         {
           identifier: '9c90113e-ed23-44dc-a2bb-e7390edfbd95',
           org_id: 2,
+          created_at: new Date(),
         },
       ],
       {}
@@ -37,6 +39,7 @@ module.exports = {
         org_id: 1,
         page_url: `http://example.com/${pageNames[Math.floor(Math.random() * pageNames.length)]}`,
         visited_at: randomDate,
+        created_at: new Date(),
       });
 
       visits2.push({
@@ -44,6 +47,7 @@ module.exports = {
         org_id: 2,
         page_url: `http://example.com/${pageNames[Math.floor(Math.random() * pageNames.length)]}`,
         visited_at: randomDate,
+        created_at: new Date(),
       });
     }
 

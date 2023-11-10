@@ -1,7 +1,7 @@
 'use strict';
 
 const TABLE_NAME = 'orgs';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(TABLE_NAME, {
@@ -16,19 +16,16 @@ module.exports = {
         field: 'api_key',
         allowNull: false,
         unique: true,
-        validate: {
-          notEmpty: true,
-        },
       },
       createdAt: {
+        type: Sequelize.DATE,
         field: 'created_at',
         allowNull: false,
-        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
 
     await queryInterface.addIndex(TABLE_NAME, ['api_key'], {
-      fields: ['api_key'],
       unique: true,
     });
   },

@@ -11,15 +11,23 @@ export default (sequelize, DataTypes) => {
       },
       identifier: {
         type: DataTypes.UUID,
-        field: 'identifier',
+        allowNull: false,
+        unique: true,
       },
       orgId: {
         type: DataTypes.INTEGER,
         field: 'org_id',
+        allowNull: false,
+        references: {
+          model: 'orgs',
+          key: 'id',
+        },
       },
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     {

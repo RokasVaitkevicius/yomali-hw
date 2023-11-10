@@ -1,7 +1,7 @@
 'use strict';
 
 const TABLE_NAME = 'visits';
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(TABLE_NAME, {
@@ -14,34 +14,44 @@ module.exports = {
       userId: {
         type: Sequelize.INTEGER,
         field: 'user_id',
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
       },
       orgId: {
         type: Sequelize.INTEGER,
         field: 'org_id',
+        allowNull: false,
+        references: {
+          model: 'orgs',
+          key: 'id',
+        },
       },
       pageUrl: {
         type: Sequelize.TEXT,
         field: 'page_url',
+        allowNull: false,
       },
       visitedAt: {
+        type: Sequelize.DATE,
         field: 'visited_at',
         allowNull: false,
-        type: Sequelize.DATE,
       },
       createdAt: {
+        type: Sequelize.DATE,
         field: 'created_at',
         allowNull: false,
-        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW'),
       },
     });
 
     await queryInterface.addIndex(TABLE_NAME, ['org_id', 'visited_at'], {
-      fields: ['org_id', 'visited_at'],
       unique: false,
     });
 
     await queryInterface.addIndex(TABLE_NAME, ['user_id'], {
-      fields: ['user_id'],
       unique: false,
     });
   },

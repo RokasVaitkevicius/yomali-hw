@@ -12,14 +12,25 @@ export default (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         field: 'user_id',
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
       },
       orgId: {
         type: DataTypes.INTEGER,
         field: 'org_id',
+        allowNull: false,
+        references: {
+          model: 'orgs',
+          key: 'id',
+        },
       },
       pageUrl: {
         type: DataTypes.TEXT,
         field: 'page_url',
+        allowNull: false,
       },
       visitedAt: {
         type: DataTypes.DATE,
@@ -29,6 +40,8 @@ export default (sequelize, DataTypes) => {
       createdAt: {
         type: DataTypes.DATE,
         field: 'created_at',
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
