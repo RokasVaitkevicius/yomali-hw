@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgresql-db:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: yomali-hw
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yomali
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    environment:
+      - NODE_ENV=development-docker
+    depends_on:
+      - postgresql-db
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dashboard:/dashboard
+      - /dashboard/node_modules
+
+  client-website:
+    build:
+      context: ./client-website
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./client-website:/client-website

@@ -7,6 +7,14 @@
     "port": 5432,
     "dialect": "postgres"
   },
+  "development-docker": {
+    "username": "postgres",
+    "password": "yomali",
+    "database": "yomali-hw",
+    "host": "postgresql-db",
+    "port": 5432,
+    "dialect": "postgres"
+  },
   "test": {
     "username": "root",
     "password": null,
